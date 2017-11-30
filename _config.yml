@@ -1,10 +1,10 @@
 # Site settings
-title: 
+title: Just One Bit
 header-img: img/home-bg.png
 email: snickers495@gmail.com
 copyright_name: snickers495
 description: > # this means to ignore newlines until "baseurl:"
-  
+  Exploring code through creative writing
 baseurl: "" # the subpath of your site, e.g. /blog
 twitter_username: 
 github_username:  snickers495

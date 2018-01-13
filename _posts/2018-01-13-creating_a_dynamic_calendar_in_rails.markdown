@@ -75,7 +75,8 @@ This is the code for the model:
       last = date.end_of_month.end_of_week(START_DAY)
       (first..last).to_a.in_groups_of(7)
     end
-end```
+end
+```
 <br><br>
 This is the code for the CalendarHelper:
 <br><br>
@@ -102,11 +103,13 @@ And this is the code for the Calendar view:
       <% end %>
     </ul>
   <% end %>
-> <% end %> ``` 
+<% end %> 
+``` 
 <br>
 ## Parsing through the Code 
 <br><br>
 While this seems like a lot of code, it's actually pretty intuitive after a little while. To begin, let's first focus on the model code. 
+<br><br>
 ```class Calendar < Struct.new(:view, :date, :callback)``` 
 <br><br>
 Struct isn't something I saw while I was working in Ruby, but it's apparently a built-in class that makes a model-like class, but with a few shortcuts if the developer doesn't need an actual class. For now let's skip down.

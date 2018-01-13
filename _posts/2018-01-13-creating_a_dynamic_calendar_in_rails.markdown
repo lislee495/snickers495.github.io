@@ -1,7 +1,7 @@
 ---
 layout: post
 title:      "Creating a Dynamic Calendar in Rails "
-date:       2018-01-13 17:51:56 +0000
+date:       2018-01-13 12:51:56 -0500
 permalink:  creating_a_dynamic_calendar_in_rails
 ---
 
@@ -30,6 +30,7 @@ In Ruby, it's tempting to hard code this, but this doesn't account for the chang
 
 ## Base Code
 This is the code for the model: 
+
 ```class Calendar < Struct.new(:view, :date, :callback)
     HEADER = %w[Sunday Monday Tuesday Wednesday Thursday Friday Saturday]
     START_DAY = :sunday
@@ -75,6 +76,7 @@ This is the code for the model:
 end```
 
 This is the code for the CalendarHelper: 
+
 ```
 module CalendarHelper
   def calendar(date = Date.today, &block)
@@ -82,6 +84,11 @@ module CalendarHelper
   end
 end
 ```
+
+Variable for the events and date, to be passed into the calendar view from the controller. 
+
+`@events_by_date = Event.group_by(&:date)`
+`@date = params[:date] ? Date.parse(params[:date]) : Date.today`
 
 And this is the code for the Calendar view: 
 ```
@@ -102,12 +109,22 @@ And this is the code for the Calendar view:
   <div class="col-md-12">
     <%= calendar @date do |date| %>
       <%= date.day %>
+			<% if @events_by_date[date] %>
+    <ul>
+      <% @events_by_date[date].each do |event| %>
+        <li><%= link_to event.name, event %></li>
+      <% end %>
+    </ul>
+  <% end %>
     <% end %>
   </div>
 </div>
 ```
+
 ## Parsing through the Code
+
 While this seems like a lot of code, it's actually pretty intuitive after a little while. To begin, let's first focus on the model code. 
+
 ```class Calendar < Struct.new(:view, :date, :callback)```
 
 Struct isn't something I saw while I was working in Ruby, but it's apparently a built-in class that makes a model-like class, but with a few shortcuts if the developer doesn't need an actual class. For now let's skip down. 
@@ -129,18 +146,84 @@ Here, we get the table method, which uses the content_tag helper to make a table
       content_tag :tr do
         HEADER.map { |day| content_tag :th, day }.join.html_safe
       end
-    end```
+    end
+```
 		
 The header method wraps the header variable in the content tag <tr>, and maps out the header array so that each day in the header is given the content tag <th>. It joins it back, and marks it as safe with the .html_safe. The next method, week_rows, calls upon two methods we haven't looked at yet, so in order to understand that, let's first look at the methods called in it, weeks and day_cell(). 
 	
-	```def weeks
+```
+def weeks
       first = date.beginning_of_month.beginning_of_week(START_DAY)
       last = date.end_of_month.end_of_week(START_DAY)
       (first..last).to_a.in_groups_of(7)
     end
-		
+end 
+```
 
-For me,
+For me, the weeks method is the fulcrum of the whole calendar. This essentially controls the <tr> and <td> content of the calendar, so if you want to make a day calendar or week calendar, you want to start here. What it does is create a nested array, where each element inside represents a week, and the content inside the array elements are the dates of the week. Here, since it's a month, it looks at the date passed into the calendar and asks for the beginning date of its month and then the beginning of the week of that date, which would be the date that falls on the start day, Sunday. That allows the calendar to look authentic with first Sunday maybe being the 31st or 30th of the last month. Then it does the same for the last day of the month. It takes the first day and last day of the calendar view and makes an array of dates, which are arranged into groups of 7 for the 7 days of the week. 
+
+This is what you have to change in order to make a week calendar or day calendar. For a week calendar, you would have to just do date.beginning_of_week(START_DAY) and arranged in a group of 1. For a day calendar, it's a bit more tricky, but you would essentially have to make a double array of all the hours of the day where the second element after every hour is blank or filler, then arrange them into groups of 2. This is allows the calendar to look like an organizer: 
+|Hour:               |        Events:       |
+|7:00 PM         |                              |
+
+Now that we've got this figured out, let's look back at the week_rows method. 
+
+```
+def week_rows
+      weeks.map do |week|
+        content_tag :tr do
+          week.map { |day| day_cell(day) }.join.html_safe
+        end
+      end.join.html_safe
+    end
+```
+
+This takes the weeks' nested array, and for every element, it assigns a content tag of <tr> and then maps the elements inside that array to the day_cell(day) method. This allows each week to have the content tag of table row, as it should. Now, let's peer into the day_cell(day) method. 
+
+```
+def day_cell(day)
+      content_tag :td, view.capture(day, &callback), class: day_classes(day)
+    end
+```
+
+As each element/day of the array nested in the weeks array is passed in, it assigns the content tag <td> to each day, makes it available to be used in the view, and assigns it the class specified by day_classes(day). Also remember, if you want to give any of the tags a class, its as easy as just adding "class:" after every content tag. 
+
+Day_classes(day) isn't very important, but it just gives the appropriate class of "today" or "not today" to every date passed it. You can modify it how you want for your own uses. 
+
+So there you go, that's how you build a dynamic calendar. The main parts that you'll have to modify are really the weeks method, as that changes the content of the table, and the header variable. 
+
+## The Other Stuff 
+
+I'll also give a brief rundown of the other stuff, so you can understand how all parts interact with one another. Assuming you have an Events model, you'll have to create a variable to pass the ordered events into the Calendar controller: `@events_by_date = Event.group_by(&:date)`
+
+This goes to the calendar view, where the main part of it: 
+
+```
+<%= calendar @date do |date| %>
+      <%= date.day %>
+```
+
+calls the helper model, calendar, which creates a new calendar from the Calendar model. This calendar has all the appropriate header, data, and row tags, so it'll appear as HTML in the view. This line ` <%= date.day %>` shows each date's day on the table. 
+
+Finally, the last part of that block: 
+
+```<% if @events_by_date[date] %>
+    <ul>
+      <% @events_by_date[date].each do |event| %>
+        <li><%= link_to event.name, event %></li>
+      <% end %>
+    </ul>
+  <% end %>
+	```
+	
+	Using the passed in variable, it checks if there are any events on each date, then if there are, shows and links the event name to its show page. The top part of the HTML just shows the month and controls for navigating to the next or previous month. This too is very customizable to your needs. 
+	
+	By default, the calendar uses today as the day to base its month calendar around. 
+	
+With that, I think I've covered all I needed to show how to work with this calendar model and customize it to whatever your needs. I hope this helps you with your own project!
+
+
+
 
 		
 		

@@ -1,13 +1,15 @@
 ---
 layout: post
 title:      "Writing ReadGood"
-date:       2017-11-30 23:27:07 +0000
+date:       2017-11-30 18:27:08 -0500
 permalink:  writing_readgood
 ---
 
-> Of course, a book lover (nerd) would spend a few weeks coding a replica of GoodReads. 
+Of course, a book lover (nerd) would spend a few weeks coding a replica of GoodReads. 
 
 For the book haters, GoodReads is a website that's primarily used to find, log, and save books, with some level of social interaction. A person can sign up and immediately gain access to a personal library where they can save books. They can also find friends and follow what other people are reading. For the most part, books exist independent of users -- while users can add to and delete from their library, normally they can't touch the status of the book. 
+
+---
 
 I wanted to make GoodReads (or ReadGood) because when I was learning about CRUD, this was the first thing that jumped out to me. It was a complex enough project that it employed multiple controllers and had a user class, but simple enough that I could see the way it was structured and built. But most importantly, it was a project of passion -- I loved Goodreads, even if I don't read as much as I used to. To me, this was a perfect blend of my love of literature and new passion of coding. 
 

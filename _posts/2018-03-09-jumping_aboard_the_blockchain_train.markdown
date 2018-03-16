@@ -1,7 +1,7 @@
 ---
 layout: post
 title:      "Jumping Aboard the Blockchain Train "
-date:       2018-03-09 21:08:14 +0000
+date:       2018-03-09 16:08:14 -0500
 permalink:  jumping_aboard_the_blockchain_train
 ---
 
@@ -22,11 +22,11 @@ Bitcoin ledgers store the transactions, but they don't implicate the parties inv
 
 ## What's all the hype about? 
 
-The main goal of Bitcoin was to keep track of how each unit of the currency is spent and prevent unauthorized changes to the ledger. Its biggest selling point is that it provides a database that cannot be tampered with.  Its broader implications mean that it can potentially replace central banks, while a decentralized, cryptographically secure databse would allow for apps that cannot be censored and can work outside of giants like Facebook or Google. 
+The main goal of Bitcoin was to keep track of how each unit of the currency is spent and prevent unauthorized changes to the ledger. Its biggest selling point is that when coded correctly, it provides a database that cannot be tampered with.  Its broader implications mean that it can potentially replace central banks, while a decentralized, cryptographically secure databse would allow for apps that cannot be censored and can work outside of giants like Facebook or Google. 
 
 Companies have already started experimenting with different uses of blockchain tech outside of currency. For example, the Depository Trust & Clearing Corporation have started experimenting with blockchain tech to improve the efficiency of stock trades.  Land registries and art ownership registries have also been explored. 
 
-Essentially, any kind of field that relies on trust and centrally stored records, like the government or banks, are liable to be disrupted by blockchain tech. It can even spread to the realm of people's digital identities, which with blockchain tech, can be tied to a token on a blockchain. 
+Essentially, any kind of field that relies on trust and centrally stored records, like the government or banks, are liable to be disrupted by blockchain tech. It can even spread to the realm of people's digital identities, which with blockchain tech can be tied to a token on a blockchain. 
 
 ## The "...but" part
 

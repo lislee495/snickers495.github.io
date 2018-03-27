@@ -35,11 +35,9 @@ Then, set up your provider credentials for the host you're using. This is usuall
 
 Create a service or deploy existing services.
 
-`
-// Create a new Serverless Service/Project
+```
 serverless create --template aws-nodejs --path my-service
-// Change into the newly created directory
-cd my-service`
+cd my-service```
 
 Then deploy using: 
 

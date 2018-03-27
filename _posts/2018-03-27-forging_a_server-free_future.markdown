@@ -1,7 +1,7 @@
 ---
 layout: post
 title:      "Forging a Server-free Future"
-date:       2018-03-27 17:30:39 +0000
+date:       2018-03-27 13:30:40 -0400
 permalink:  forging_a_server-free_future
 ---
 
@@ -89,6 +89,10 @@ The reliance on Function as a Service means that often times, an app is fragment
 
 Everything operates statelessly, so developers have to do more overhead work to pass variables that require multiple transformations -- like storing each variable in a DB and chaining them like that. 
 
+
+## Conclusion
+
+Although the serverless framework does have disadvantages, it's still a relatively new technology. Many of the providers have just begun offering it, so these drawbacks may get smoothened out in the future. And with tech's consistent movement towards cloud computing, it looks like serverless frameworks are here to stay.
 
 
 
